@@ -1,0 +1,13 @@
+# Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Intermediate photo files (only the final SVG matters for the README)
+source-photo.*
+source-prepped.png
+
+# OS junk
+.DS_Store
+Thumbs.db
