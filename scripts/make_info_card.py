@@ -20,7 +20,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # Content
 # ---------------------------------------------------------------------------
-TITLE = "avi@github"
+TITLE = "mayank@github"
 
 FIELDS = [
     ("Now", [
@@ -155,24 +155,46 @@ def build_svg(static: bool) -> str:
     <circle cx="{PAD_X + 50}" cy="{TITLEBAR_H / 2 + 2}" r="6" fill="{DOT_GREEN}" />
     '''
 
+    # Blinking cursor that lands after the last line and blinks forever,
+    # echoing the header banner so the whole profile feels connected.
+    last_y = PAD_TOP + (len(lines) - 1) * LINE_H
+    last_value = lines[-1][1]
+    cursor_x = PAD_X + LABEL_COL_W + len(last_value) * (FONT_SIZE * 0.62) + 6
+    cursor_start = round(len(lines) * STAGGER + DUR + 0.1, 3)
+    cursor = "" if static else (
+        f'<rect x="{cursor_x:.1f}" y="{last_y - 10}" width="7" height="13" fill="{LABEL_COLOR}" opacity="0">'
+        f'<animate attributeName="opacity" values="0;1;0" dur="1s" '
+        f'begin="{cursor_start}s" repeatCount="indefinite" />'
+        f'</rect>'
+    )
+
     svg = f'''<svg viewBox="0 0 {WIDTH} {height:.0f}" width="{WIDTH}" height="{height:.0f}"
      xmlns="http://www.w3.org/2000/svg" font-family="{FONT}">
   <defs>
     <clipPath id="rounded">
       <rect x="0" y="0" width="{WIDTH}" height="{height:.0f}" rx="10" ry="10" />
     </clipPath>
+    <linearGradient id="cardBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#39d353" />
+      <stop offset="50%" stop-color="#56d4dd" />
+      <stop offset="100%" stop-color="#bd93f9" />
+    </linearGradient>
+    <filter id="cardGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="b" />
+      <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
   </defs>
   <g clip-path="url(#rounded)">
     <rect width="{WIDTH}" height="{height:.0f}" fill="{BG}" />
     <rect width="{WIDTH}" height="{TITLEBAR_H}" fill="{TITLEBAR_BG}" />
-    <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height:.0f} - 1" fill="none" stroke="{BORDER}" />
     {dots}
     <text x="{WIDTH / 2}" y="{TITLEBAR_H / 2 + 4.5}" font-size="12" fill="{MUTED_COLOR}"
           text-anchor="middle">{escape_xml(TITLE)}</text>
 {"".join(body)}
+{cursor}
   </g>
-  <rect x="0.5" y="0.5" width="{WIDTH - 1}" height="{height:.0f}" rx="10" ry="10"
-        fill="none" stroke="{BORDER}" />
+  <rect x="1" y="1" width="{WIDTH - 2}" height="{height - 2:.0f}" rx="10" ry="10"
+        fill="none" stroke="url(#cardBorderGrad)" stroke-width="1.6" filter="url(#cardGlow)" />
 </svg>'''
     return svg
 

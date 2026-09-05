@@ -122,11 +122,29 @@ def build_svg(payload: dict) -> str:
 
             level = day["level"]
             color = PALETTE[min(level, 4)]
-            if day["date"] == best_date and level > 0:
+            is_best = day["date"] == best_date and level > 0
+            if is_best:
                 color = PALETTE[5]
 
             delay = round((wi + di) * STAGGER, 3)
             title = f'{day["count"]} contributions on {day["date"]}'
+
+            if is_best:
+                # A separate blurred halo sits behind the cell: it fades
+                # in once the diagonal reveal reaches it, then pulses
+                # forever. Kept off the cell itself so we never stack
+                # two animations on the same element/property.
+                fade_in_dur = 0.5
+                pulse_start = round(delay + DUR + fade_in_dur, 3)
+                boxes.append(
+                    f'<rect x="{x - 4}" y="{y - 4}" width="{BOX + 8}" height="{BOX + 8}" '
+                    f'rx="4" ry="4" fill="{color}" opacity="0" filter="url(#cellGlow)">'
+                    f'<animate attributeName="opacity" from="0" to="0.55" '
+                    f'dur="{fade_in_dur}s" begin="{delay + DUR}s" fill="freeze" />'
+                    f'<animate attributeName="opacity" values="0.55;0.22;0.55" '
+                    f'dur="2.2s" begin="{pulse_start}s" repeatCount="indefinite" />'
+                    f'</rect>'
+                )
 
             boxes.append(
                 f'<rect class="cell" x="{x}" y="{y}" width="{BOX}" height="{BOX}" '
@@ -198,15 +216,35 @@ def build_svg(payload: dict) -> str:
     </style>
     '''
 
-    svg = f'''<svg viewBox="0 0 {width} {height}" width="{width}" height="{height}"
+    defs = style + f'''
+    <filter id="cellGlow" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="3.5" />
+    </filter>
+    <linearGradient id="topAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#39d353" />
+      <stop offset="50%" stop-color="#56d4dd" />
+      <stop offset="100%" stop-color="#bd93f9" />
+    </linearGradient>
+    '''
+
+    panel_pad = 18
+    full_w = width + panel_pad * 2
+    full_h = height + panel_pad * 2
+
+    svg = f'''<svg viewBox="0 0 {full_w} {full_h}" width="{full_w}" height="{full_h}"
      xmlns="http://www.w3.org/2000/svg" font-family="monospace">
-  <defs>{style}</defs>
-  <rect width="100%" height="100%" fill="transparent" />
+  <defs>{defs}</defs>
+  <rect width="{full_w}" height="{full_h}" rx="14" ry="14" fill="#0d1117" />
+  <rect x="1" y="1" width="{full_w - 2}" height="{full_h - 2}" rx="14" ry="14"
+        fill="none" stroke="#30363d" stroke-width="1.3" />
+  <rect x="2" y="2" width="{full_w - 4}" height="3" fill="url(#topAccent)" />
+  <g transform="translate({panel_pad},{panel_pad})">
 {"".join(month_labels)}
 {"".join(day_labels)}
 {"".join(boxes)}
 {legend}
 {footer}
+  </g>
 </svg>'''
     return svg
 

@@ -1,0 +1,26 @@
+<svg viewBox="0 0 420 220" width="420" height="220"
+     xmlns="http://www.w3.org/2000/svg" font-family="monospace">
+  <defs>
+    <style>
+      @keyframes popIn {
+        0%   { opacity: 0; transform: scale(0.5); }
+        60%  { opacity: 1; transform: scale(1.12); }
+        100% { opacity: 1; transform: scale(1); }
+      }
+      @keyframes growBar0 { from { width: 0; } to { width: 250.0px; } }@keyframes growBar1 { from { width: 0; } to { width: 93.8px; } }@keyframes growBar2 { from { width: 0; } to { width: 62.5px; } }
+    </style>
+    </defs>
+  <rect width="420" height="220" rx="12" ry="12" fill="#0d1117" stroke="#30363d" stroke-width="1.3" />
+  <g>
+    <rect width="420" height="34" rx="12" ry="12" fill="#161b22" />
+    <rect y="22" width="420" height="12" fill="#161b22" />
+    <circle cx="26" cy="17.0" r="6" fill="#ff5f56" />
+    <circle cx="48" cy="17.0" r="6" fill="#ffbd2e" />
+    <circle cx="70" cy="17.0" r="6" fill="#27c93f" />
+    <text x="210.0" y="21.5" font-size="12" fill="#8b949e"
+          text-anchor="middle" font-family="monospace">gh --stat</text>
+    </g>
+<g transform="translate(67.5,80.0)" opacity="0" style="animation:popIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.0s forwards"><text text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="#39d353">14</text><text text-anchor="middle" y="20" font-family="monospace" font-size="10.5" fill="#8b949e">Repos</text></g><g transform="translate(162.5,80.0)" opacity="0" style="animation:popIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.12s forwards"><text text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="#56d4dd">23</text><text text-anchor="middle" y="20" font-family="monospace" font-size="10.5" fill="#8b949e">Stars</text></g><g transform="translate(257.5,80.0)" opacity="0" style="animation:popIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.24s forwards"><text text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="#bd93f9">9</text><text text-anchor="middle" y="20" font-family="monospace" font-size="10.5" fill="#8b949e">Followers</text></g><g transform="translate(352.5,80.0)" opacity="0" style="animation:popIn 0.5s cubic-bezier(.34,1.56,.64,1) 0.36s forwards"><text text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="#ffb86c">2022</text><text text-anchor="middle" y="20" font-family="monospace" font-size="10.5" fill="#8b949e">Since</text></g>
+<line x1="20" y1="114" x2="400" y2="114" stroke="#30363d" stroke-width="1" />
+<text x="20" y="128" font-family="monospace" font-size="10.5" fill="#8b949e">Top languages</text><text x="20" y="148.5" font-family="monospace" font-size="10.5" fill="#c9d1d9">Python</text><rect x="135" y="138" width="0" height="9" rx="4" ry="4" fill="#3572A5" style="animation:growBar0 0.5s cubic-bezier(.2,0,.2,1) 0.4s forwards" /><text x="20" y="170.5" font-family="monospace" font-size="10.5" fill="#c9d1d9">TypeScript</text><rect x="135" y="160" width="0" height="9" rx="4" ry="4" fill="#3178c6" style="animation:growBar1 0.5s cubic-bezier(.2,0,.2,1) 0.48s forwards" /><text x="20" y="192.5" font-family="monospace" font-size="10.5" fill="#c9d1d9">Jupyter Notebook</text><rect x="135" y="182" width="0" height="9" rx="4" ry="4" fill="#DA5B0B" style="animation:growBar2 0.5s cubic-bezier(.2,0,.2,1) 0.56s forwards" />
+</svg>

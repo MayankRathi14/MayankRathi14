@@ -1,0 +1,56 @@
+<svg viewBox="0 0 860 150" width="860" height="150"
+     xmlns="http://www.w3.org/2000/svg" font-family="monospace">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1117">
+        <animate attributeName="stop-color" values="#0d1117;#131a2a;#0d1117"
+                 dur="7s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="55%" stop-color="#111827">
+        <animate attributeName="stop-color" values="#111827;#1a1033;#111827"
+                 dur="7s" repeatCount="indefinite" />
+      </stop>
+      <stop offset="100%" stop-color="#0d1117">
+        <animate attributeName="stop-color" values="#0d1117;#101d18;#0d1117"
+                 dur="7s" repeatCount="indefinite" />
+      </stop>
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#39d353" />
+      <stop offset="50%" stop-color="#56d4dd" />
+      <stop offset="100%" stop-color="#bd93f9" />
+    </linearGradient>
+
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3.2" result="b" />
+      <feMerge>
+        <feMergeNode in="b" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <clipPath id="wipe1">
+      <rect x="0" y="-30" width="0" height="45">
+        <animate attributeName="width" from="0" to="290.0"
+                 dur="0.9s" begin="0.1s" fill="freeze"
+                 calcMode="spline" keySplines="0.3 0 0.2 1" />
+      </rect>
+    </clipPath>
+    <clipPath id="wipe2">
+      <rect x="0" y="-22" width="0" height="34">
+        <animate attributeName="width" from="0" to="433.99999999999994"
+                 dur="0.9s" begin="1.05s" fill="freeze"
+                 calcMode="spline" keySplines="0.3 0 0.2 1" />
+      </rect>
+    </clipPath>
+    </defs>
+  <rect width="860" height="150" rx="14" ry="14" fill="url(#bgGrad)" />
+  <rect x="1" y="1" width="858" height="148" rx="14" ry="14"
+        fill="none" stroke="url(#borderGrad)" stroke-width="2" filter="url(#softGlow)" />
+  <circle cx="18" cy="18" r="6" fill="#ff5f56"/><circle cx="40" cy="18" r="6" fill="#ffbd2e"/><circle cx="62" cy="18" r="6" fill="#27c93f"/>
+  <text x="836" y="22" font-size="11" fill="#8b949e" text-anchor="end">mayank@github: ~</text>
+  <g transform="translate(40,52)" clip-path="url(#wipe1)"><text font-family="monospace" font-size="22" font-weight="bold" fill="#f0f6fc">Hi, I'm Mayank Rathi</text></g>
+  <g transform="translate(40,86)" clip-path="url(#wipe2)"><text font-family="monospace" font-size="15" fill="#39d353">Building AI/ML systems &amp; full-stack products.</text></g>
+  <rect x="458.0" y="72" width="9" height="16" fill="#39d353" opacity="0"><animate attributeName="opacity" values="0;0;1;0;1;0;1;0;1;0;1" keyTimes="0;0.394;0.455;0.515;0.576;0.636;0.697;0.758;0.818;0.879;1" dur="4.95s" repeatCount="indefinite" /></rect>
+</svg>

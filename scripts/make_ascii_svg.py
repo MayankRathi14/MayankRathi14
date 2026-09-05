@@ -117,13 +117,61 @@ def build_svg(ascii_rows: list[str]) -> str:
             f'{cursor}'
         )
 
-    svg = f'''<svg viewBox="0 0 {width:.0f} {height:.0f}" width="{width:.0f}" height="{height:.0f}"
+    last_row_begin = round((len(ascii_rows) - 1) * ROW_STAGGER, 3)
+    final_cursor_start = round(last_row_begin + ROW_DURATION + 0.15, 3)
+    last_row_width = len(ascii_rows[-1]) * CHAR_W if ascii_rows else 0
+    final_cursor_y = 10 + (len(ascii_rows) - 1) * CHAR_H
+
+    final_cursor = (
+        f'<rect x="{10 + last_row_width + 2:.1f}" y="{final_cursor_y - CHAR_H + 1:.1f}" '
+        f'width="{CHAR_W * 0.9:.2f}" height="{CHAR_H - 2:.2f}" fill="{CURSOR_COLOR}" opacity="0">'
+        f'<animate attributeName="opacity" values="0;1;0" dur="1s" '
+        f'begin="{final_cursor_start}s" repeatCount="indefinite" />'
+        f'</rect>'
+    )
+
+    panel_pad = 16
+    titlebar_h = 32
+    full_w = width + panel_pad * 2
+    full_h = height + panel_pad * 2 + titlebar_h
+
+    titlebar = f'''
+    <rect width="{full_w:.0f}" height="{titlebar_h}" rx="14" ry="14" fill="#161b22" />
+    <rect y="{titlebar_h - 14}" width="{full_w:.0f}" height="14" fill="#161b22" />
+    <circle cx="26" cy="{titlebar_h / 2}" r="6" fill="#ff5f56" />
+    <circle cx="48" cy="{titlebar_h / 2}" r="6" fill="#ffbd2e" />
+    <circle cx="70" cy="{titlebar_h / 2}" r="6" fill="#27c93f" />
+    <text x="{full_w / 2:.0f}" y="{titlebar_h / 2 + 4.5}" font-size="12" fill="#8b949e"
+          text-anchor="middle" font-family="monospace">whoami.sh</text>
+    '''
+
+    svg = f'''<svg viewBox="0 0 {full_w:.0f} {full_h:.0f}" width="{full_w:.0f}" height="{full_h:.0f}"
      xmlns="http://www.w3.org/2000/svg" font-family="monospace">
   <defs>
 {"".join(defs)}
+    <linearGradient id="asciiBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#39d353" />
+      <stop offset="50%" stop-color="#56d4dd" />
+      <stop offset="100%" stop-color="#bd93f9" />
+    </linearGradient>
+    <filter id="asciiGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="b" />
+      <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <clipPath id="asciiRounded">
+      <rect width="{full_w:.0f}" height="{full_h:.0f}" rx="14" ry="14" />
+    </clipPath>
   </defs>
-  <rect width="100%" height="100%" fill="{BG_COLOR}" />
+  <g clip-path="url(#asciiRounded)">
+    <rect width="{full_w:.0f}" height="{full_h:.0f}" fill="{BG_COLOR if BG_COLOR != 'transparent' else '#0d1117'}" />
+    {titlebar}
+    <g transform="translate({panel_pad},{titlebar_h + panel_pad - 10})">
 {"".join(rows_svg)}
+{final_cursor}
+    </g>
+  </g>
+  <rect x="1" y="1" width="{full_w - 2:.0f}" height="{full_h - 2:.0f}" rx="14" ry="14"
+        fill="none" stroke="url(#asciiBorderGrad)" stroke-width="1.6" filter="url(#asciiGlow)" />
 </svg>'''
     return svg
 
